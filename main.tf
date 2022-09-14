@@ -104,7 +104,7 @@ resource "azurerm_storage_account" "my_storage_account" {
 
 # Create virtual machine
 resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
-  name                  = "myVM"
+  name                  = "stagingVM"
   location              = azurerm_resource_group.rg.location
   resource_group_name   = azurerm_resource_group.rg.name
   network_interface_ids = [azurerm_network_interface.my_terraform_nic.id]
@@ -118,18 +118,18 @@ resource "azurerm_linux_virtual_machine" "my_terraform_vm" {
 
   source_image_reference {
     publisher = "Canonical"
-    offer     = "UbuntuServer"
-    sku       = "18.04-LTS"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts-gen2"
     version   = "latest"
   }
 
-  computer_name                   = "myvm"
+  computer_name                   = "stagingVM"
   admin_username                  = "azureuser"
   disable_password_authentication = true
 
   admin_ssh_key {
     username   = "azureuser"
-    public_key = file("/Users/michaelsambou/Desktop/TA/Fall 2022/DevOps/public_keys/devopskey.pub")
+    public_key = file("<path-to-your-azure-ssh-public-key>")
   }
 
   boot_diagnostics {
